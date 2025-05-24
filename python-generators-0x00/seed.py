@@ -10,7 +10,8 @@ def connect_db():
         connection = mysql.connector.connect(
             host='localhost',
             user='root',  # replace with your MySQL username
-            password='Tabucliff12!'   # replace with your MySQL password
+            password='Tabucliff12!' ,  # replace with your MySQL password
+            auth_plugin='Tabucliff12!'
         )
         return connection
     except Error as e:
