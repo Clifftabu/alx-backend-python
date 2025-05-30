@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Unit tests for GithubOrgClient."""
+"""Unit tests for GithubOrgClient.
+Includes:
+- Unit tests for org property, public repos URL, public repos list,
+  and license checking.
+- Integration tests using fixture data to mock GitHub API responses.
+"""
 
 import unittest
 from unittest.mock import patch, PropertyMock, Mock
