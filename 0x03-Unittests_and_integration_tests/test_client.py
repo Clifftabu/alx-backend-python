@@ -5,6 +5,7 @@ from unittest.mock import patch, PropertyMock, Mock
 from parameterized import parameterized, parameterized_class
 from clients import GithubOrgClient
 import fixtures
+from fixtures import org_payload
 
 class TestGithubOrgClient(unittest.TestCase):
     """Unit tests for GithubOrgClient"""
@@ -103,5 +104,7 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
             self.apache2_repos
         )
 
+
+print(fixtures.org_payload)
 if __name__ == "__main__":
     unittest.main()
