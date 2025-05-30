@@ -948,6 +948,12 @@ TEST_PAYLOAD = [
     ['dagger', 'kratu', 'traceur-compiler', 'firmata.py'],
   )
 ]
+
+org_payload = {
+    "login": "user",
+    "id": 123456,
+    "name": "User Name",
+}
 org_payload = TEST_PAYLOAD[0][0]
 repos_payload = TEST_PAYLOAD[0][1]
 expected_repos = [repo["name"] for repo in repos_payload]
