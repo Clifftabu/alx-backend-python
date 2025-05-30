@@ -948,3 +948,11 @@ TEST_PAYLOAD = [
     ['dagger', 'kratu', 'traceur-compiler', 'firmata.py'],
   )
 ]
+org_payload = TEST_PAYLOAD[0][0]
+repos_payload = TEST_PAYLOAD[0][1]
+expected_repos = [repo["name"] for repo in repos_payload]
+apache2_repos = [
+    repo["name"]
+    for repo in repos_payload
+    if isinstance(repo.get("license"), dict) and repo["license"].get("key") == "apache-2.0"
+]
