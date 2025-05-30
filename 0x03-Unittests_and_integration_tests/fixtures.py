@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+
 TEST_PAYLOAD = [
   (
     {"repos_url": "https://api.github.com/orgs/google/repos"},
@@ -949,13 +950,10 @@ TEST_PAYLOAD = [
   )
 ]
 
-org_payload = {
-    "login": "user",
-    "id": 123456,
-    "name": "User Name",
-}
+
 org_payload = TEST_PAYLOAD[0][0]
 repos_payload = TEST_PAYLOAD[0][1]
+
 expected_repos = [repo["name"] for repo in repos_payload]
 apache2_repos = [
     repo["name"]
