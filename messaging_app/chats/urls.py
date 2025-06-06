@@ -1,4 +1,5 @@
 from rest_framework import routers
+from rest_framework_nested import routers
 from rest_framework.routers import DefaultRouter
 from django.urls import path, include
 from .views import ConversationViewSet, MessageViewSet
@@ -13,4 +14,6 @@ messages_router.register(r'messages', MessageViewSet, basename='conversation-mes
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('', include(messages_router.urls)),
+    
 ]
