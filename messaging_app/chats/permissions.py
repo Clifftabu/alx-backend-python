@@ -9,6 +9,8 @@ from rest_framework.permissions import BasePermission
 class IsParticipantOfConversation(BasePermission):
     """
     Custom permission to only allow participants of a conversation to access it.
+
+    PUT, PATCH, DELETE methods require user to be a participant.
     """
 
     def has_permission(self, request, view):
@@ -16,5 +18,16 @@ class IsParticipantOfConversation(BasePermission):
         return request.user and request.user.is_authenticated
 
     def has_object_permission(self, request, view, obj):
-        # Assuming obj has a 'participants' attribute (ManyToMany to User)
-        return request.user in obj.participants.all()
+        # Check if user is a participant of the conversation
+        is_participant = request.user in obj.participants.all()
+
+        if request.method in permissions.SAFE_METHODS:
+            # Read-only permissions for participants
+            return is_participant
+
+        # For PUT, PATCH, DELETE require participant status
+        if request.method in ('PUT', 'PATCH', 'DELETE'):
+            return is_participant
+
+        # Deny all other methods by default
+        return False
