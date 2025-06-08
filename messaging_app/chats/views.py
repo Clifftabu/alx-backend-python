@@ -62,6 +62,19 @@ class MessageViewSet(viewsets.ModelViewSet):
         # Only messages in conversations where the user is a participant
         return Message.objects.filter(conversation__participants=self.request.user)
 
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+    
     def create(self, request, *args, **kwargs):
         conversation_id = request.data.get('conversation')
         sender_id = request.data.get('sender')
