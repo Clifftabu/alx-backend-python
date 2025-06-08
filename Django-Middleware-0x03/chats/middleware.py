@@ -45,4 +45,29 @@ class OffensiveLanguageMiddleware:
             if any(re.search(rf'\b{word}\b', body, re.IGNORECASE) for word in self.offensive_words):
                 return HttpResponse("Offensive language detected. Request blocked.", status=403)
         return self.get_response(request)
+    
+
+class RoleBasedPermissionMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+        # Define role-based access control for each path or prefix
+        self.protected_paths = {
+            '/admin-only/': ['admin'],
+            '/moderator-only/': ['admin', 'moderator'],
+        }
+
+    def __call__(self, request):
+        path = request.path
+        user = getattr(request, 'user', None)
+
+        for protected_path, allowed_roles in self.protected_paths.items():
+            if path.startswith(protected_path):
+                if not user or not user.is_authenticated:
+                    return HttpResponse('Authentication required.', status=401)
+
+                user_role = getattr(user, 'role', 'user')  # Default role is 'user'
+                if user_role not in allowed_roles:
+                    return HttpResponse('Permission denied.', status=403)
+
+        return self.get_response(request)
 
