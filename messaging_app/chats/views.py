@@ -56,7 +56,7 @@ class MessageViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, IsParticipantOfConversation]
     filter_backends = [DjangoFilterBackend]
     filterset_class = MessageFilter
-    pagination_class = MessagePagination
+    
 
     def get_queryset(self):
         # Only messages in conversations where the user is a participant
