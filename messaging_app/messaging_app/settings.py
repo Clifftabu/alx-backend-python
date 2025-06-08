@@ -149,7 +149,7 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',  # enables browsable API UI
     ),
-     'DEFAULT_PAGINATION_CLASS': 'chats.pagination.MessagePagination',  # your pagination class
+    'DEFAULT_PAGINATION_CLASS': 'chats.pagination.MessagePagination',  # your pagination class
     'PAGE_SIZE': 20,
     'DEFAULT_FILTER_BACKENDS':
     ['django_filters.rest_framework.DjangoFilterBackend'],
