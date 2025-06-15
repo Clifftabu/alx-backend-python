@@ -18,8 +18,7 @@ def threaded_conversations(request):
 
     return render(request, 'messaging/threaded_conversations.html', {'messages': messages})
 
-@login_required
-@cache_page(60)  # Task 5: Cache this view for 60 seconds
+@login_required  # Task 5: Cache this view for 60 seconds
 def unread_messages_view(request):
-    unread_msgs = Message.unread.for_user(request.user)
+    unread_msgs = Message.unread.unread.for_user(request.user)
     return render(request, 'messages/unread.html', {'messages': unread_msgs})
