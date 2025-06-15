@@ -29,3 +29,7 @@ class MessageHistory(models.Model):
     edited_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     def __str__(self):
         return f'Edit History of Message {self.message.id}'
+    
+class UnreadMessagesManager(models.Manager):
+    def for_user(self, user):
+        return self.filter(receiver=user, read=False).only('id', 'content', 'timestamp', 'sender')
