@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from .models import Message
 from django.db.models import Prefetch
+from django.views.decorators.cache import cache_page
 
 @login_required
 def delete_user(request):
@@ -16,3 +17,9 @@ def threaded_conversations(request):
         .prefetch_related('replies__sender', 'replies__receiver')
 
     return render(request, 'messaging/threaded_conversations.html', {'messages': messages})
+
+@login_required
+@cache_page(60)  # Task 5: Cache this view for 60 seconds
+def unread_messages_view(request):
+    unread_msgs = Message.unread.for_user(request.user)
+    return render(request, 'messages/unread.html', {'messages': unread_msgs})

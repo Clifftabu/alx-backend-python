@@ -8,7 +8,6 @@ def create_notification(sender, instance, created, **kwargs):
     if created:
         Notification.objects.create(user=instance.receiver, message=instance)
 
-# NEW: Signal to log edit history before saving updates
 @receiver(pre_save, sender=Message)
 def log_message_edit(sender, instance, **kwargs):
     if instance.pk:
@@ -26,7 +25,6 @@ def log_message_edit(sender, instance, **kwargs):
 
 @receiver(post_delete, sender=User)
 def delete_user_related_data(sender, instance, **kwargs):
-    # Extra safety cleanup (though CASCADE handles this)
     Message.objects.filter(sender=instance).delete()
     Message.objects.filter(receiver=instance).delete()
     Notification.objects.filter(user=instance).delete()
