@@ -17,7 +17,7 @@ pipeline {
 	}
         stage('Install Dependencies') {
             steps {
-                sh 'pip3 install -r messaging_app/requirements.txt'
+                sh 'pip install -r messaging_app/requirements.txt'
             }
         }
         stage('Run Tests') {
