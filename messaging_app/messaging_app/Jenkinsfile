@@ -1,10 +1,10 @@
 pipeline {
-    agent {
-        docker {
-            image 'python:3.11-slim'
-            args '-u root:root'
-        }
-    }
+    agent any
+
+   environment{
+	DOCKER_IMAGE = 'clifftabu/messaging_app/messaging_app:latest'
+	}
+
 
     stages {
         stage('Clone Repository') {
@@ -16,12 +16,12 @@ pipeline {
         }
         stage('Install Dependencies') {
             steps {
-                sh 'pip install -r messaging_app/requirements.txt'
+                sh 'pip3 install -r messaging_app/messaging_app/requirements.txt'
             }
         }
         stage('Run Tests') {
             steps {
-                sh 'pytest messaging_app --junitxml=report.xml'
+                sh 'pytest messaging_app/messaging_app --junitxml=report.xml'
             }
         }
         stage('Archive Test Results') {
@@ -29,6 +29,25 @@ pipeline {
                 junit 'report.xml'
             }
         }
+	stage('Build Docker Image') {
+		steps {
+			script{
+				sh 'docker build -t $DOCKER_IMAGE messaging_app/messaging_app'	
+			}
+   		}
+	}
+	stage('Push Docker Image') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                    script {
+                        sh 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
+                        sh 'docker push $DOCKER_IMAGE'
+                    }
+                }
+            }
+        }
     }
 }
+		
+		
 
