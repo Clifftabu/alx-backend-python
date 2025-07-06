@@ -12,8 +12,11 @@ WORKDIR /app
 COPY requirements.txt /app/
 
 # Install Python dependencies
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
+RUN apt-get update && \
+    apt-get install -y gcc default-libmysqlclient-dev pkg-config && \
+    pip install --upgrade pip && \
+    pip install -r requirements.txt
+
 
 # Copy project code
 COPY . /app/
@@ -22,4 +25,4 @@ COPY . /app/
 EXPOSE 8000
 
 # Command to run the Django app using gunicorn
-CMD ["gunicorn", "messaging_app.wsgi:application", "--bind", "0.0.0.0:8000"]
+CMD ["python", "messaging_app/manage.py", "runserver", "0.0.0.0:8000"]
