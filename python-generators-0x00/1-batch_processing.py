@@ -10,26 +10,27 @@ def stream_users_in_batches(batch_size):
         connection = mysql.connector.connect(
             host='localhost',
             user='root',
-            password='Tabucliff12!', 
-            database='ALX_prodev',
-            auth_plugin='Tabucliff12!'
+            password='Tabucliff12!',
+            database='ALX_prodev'
+            # auth_plugin='Tabucliff12!'
         )
         cursor = connection.cursor(dictionary=True)
         offset = 0
-        
+
         while True:
-            cursor.execute(f"SELECT * FROM user_data LIMIT {batch_size} OFFSET {offset}")
+            cursor.execute(f"SELECT * FROM user_data ORDER BY user_id LIMIT {batch_size} OFFSET {offset}")
             rows = cursor.fetchall()
             if not rows:
                 break
             yield rows
             offset += batch_size
-            
+
     except Error as e:
         print(f"Database error: {e}")
     finally:
-        if 'connection' in locals() and connection.is_connected():
+        if 'cursor' in locals():
             cursor.close()
+        if 'connection' in locals() and connection.is_connected():
             connection.close()
 
 
