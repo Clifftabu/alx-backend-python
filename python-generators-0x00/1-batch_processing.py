@@ -37,7 +37,11 @@ def stream_users_in_batches(batch_size):
 
 
 def batch_processing(batch_size):
-    """Prints users over the age of 25."""
+    """Returns a list of users over the age of 25."""
+    users_over_25 = []
+
     for user in stream_users_in_batches(batch_size):
         if user['age'] > 25:
-            print(f"User {user['user_id']} is over 25 years old.")
+            users_over_25.append(user)
+
+    return users_over_25
