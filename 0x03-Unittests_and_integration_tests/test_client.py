@@ -15,8 +15,22 @@ class TestGithubOrgClient(unittest.TestCase):
     """Unit tests for GithubOrgClient class from client module"""
 
     @parameterized.expand([
-        ('google_org', 'google', {'login': 'google', 'repo_url': 'https://api.github.com/orgs/google/repos'}),
-        ('abc_org', 'abc', {'login': 'abc', 'repo_url': 'https://api.github.com/orgs/abc/repos'})
+        (
+            'google_org',
+            'google',
+            {
+                'login': 'google',
+                'repo_url': 'https://api.github.com/orgs/google/repos'
+            }
+        ),
+        (
+            'abc_org',
+            'abc',
+            {
+                'login': 'abc',
+                'repo_url': 'https://api.github.com/orgs/abc/repos'
+            }
+        )
     ])
     @patch('client.get_json')
     def test_org(self, name, organization_name, expected_data, mock_get_json):
@@ -26,7 +40,8 @@ class TestGithubOrgClient(unittest.TestCase):
         self.assertEqual(
             org_client.org,
             expected_data,
-            f"The organization {organization_name} should provide expected results {expected_data}"
+            f"The organization {organization_name} should provide expected "
+            f"results {expected_data}"
         )
         mock_get_json.assert_called_once_with(
             f'https://api.github.com/orgs/{organization_name}'
@@ -52,7 +67,10 @@ class TestGithubOrgClient(unittest.TestCase):
             {'name': 'repo_2', 'license': 'license for repo_2'}
         ]
         mock_get_json.return_value = test_repos
-        with patch('client.GithubOrgClient._public_repos_url', new_callable=PropertyMock) as mock_url:
+        with patch(
+            'client.GithubOrgClient._public_repos_url',
+            new_callable=PropertyMock
+        ) as mock_url:
             mock_url.return_value = 'https://api.github.com/example_org/repos'
             client_instance = GithubOrgClient('example_org')
             self.assertEqual(
@@ -61,11 +79,21 @@ class TestGithubOrgClient(unittest.TestCase):
                 'Should return a list of repository names'
             )
             mock_url.assert_called_once()
-            mock_get_json.assert_called_once_with("https://api.github.com/example_org/repos")
+            mock_get_json.assert_called_once_with(
+                "https://api.github.com/example_org/repos"
+            )
 
     @parameterized.expand([
-        ({"license": {"key": "my_license"}}, "my_license", True),
-        ({"license": {"key": "other_license"}}, "my_license", False)
+        (
+            {"license": {"key": "my_license"}},
+            "my_license",
+            True
+        ),
+        (
+            {"license": {"key": "other_license"}},
+            "my_license",
+            False
+        )
     ])
     def test_has_license(self, repo, license_key, expected):
         """Test has_license returns correct boolean based on repo license key."""
