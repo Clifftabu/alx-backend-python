@@ -12,17 +12,19 @@ def stream_users_in_batches(batch_size):
             user='root',
             password='Tabucliff12!',
             database='ALX_prodev'
-            # auth_plugin='Tabucliff12!'
         )
         cursor = connection.cursor(dictionary=True)
         offset = 0
 
         while True:
-            cursor.execute(f"SELECT * FROM user_data ORDER BY user_id LIMIT {batch_size} OFFSET {offset}")
+            cursor.execute(
+                f"SELECT * FROM user_data ORDER BY user_id LIMIT {batch_size} OFFSET {offset}"
+            )
             rows = cursor.fetchall()
             if not rows:
                 break
-            yield rows
+            for row in rows:
+                yield row
             offset += batch_size
 
     except Error as e:
@@ -35,8 +37,7 @@ def stream_users_in_batches(batch_size):
 
 
 def batch_processing(batch_size):
-    """Processes each batch to filter users over the age of 25."""
-    for batch in stream_users_in_batches(batch_size):
-        for user in batch:
-            if user['age'] > 25:
-                print(user)
+    """Prints users over the age of 25."""
+    for user in stream_users_in_batches(batch_size):
+        if user['age'] > 25:
+            print(f"User {user['user_id']} is over 25 years old.")
