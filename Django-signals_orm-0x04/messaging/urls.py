@@ -5,6 +5,7 @@ from .views import unread_messages_view
 
 urlpatterns = [
     path('delete_user/', views.delete_user, name='delete_user'),
+    path('send/', views.send_message, name='send_message'),
     path('threaded/', views.threaded_conversations, name='threaded_conversations'),
     path('unread/', unread_messages_view, name='unread-messages'),
 ]

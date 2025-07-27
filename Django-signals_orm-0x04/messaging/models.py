@@ -9,7 +9,7 @@ class Message(models.Model):
     content = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
     edited = models.BooleanField(default=False)
-    parent_message = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE)
+    parent_message = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, related_name='replies')
     read = models.BooleanField(default=False)
     objects = models.Manager()  # Default manager
     unread = UnreadMessagesManager()  # Custom manager for unread messages
@@ -38,4 +38,4 @@ class MessageHistory(models.Model):
     
 class UnreadMessagesManager(models.Manager):
     def for_user(self, user):
-        return self.filter(receiver=user, read=False).only('id', 'content', 'timestamp', 'sender')
+        return self.filter(receiver=user, read=False).only('id', 'content', 'timestamp', 'sender') ,, this is my models.py, give me final files

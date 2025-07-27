@@ -1,0 +1,13 @@
+{% for reply in replies %}
+    <div style="margin-left: {{ level|add:"1" }}em;">
+        <strong>{{ reply.sender.username }}</strong>: {{ reply.content }}
+        <form method="post" action="{% url 'send_message' %}">
+            {% csrf_token %}
+            <input type="hidden" name="receiver" value="{{ reply.sender.id }}">
+            <input type="hidden" name="parent_message" value="{{ reply.id }}">
+            <input type="text" name="content" placeholder="Reply to this reply">
+            <button type="submit">Reply</button>
+        </form>
+        {% include 'messaging/partials/replies.html' with replies=reply.child_replies level=level|add:"1" %}
+    </div>
+{% endfor %}
