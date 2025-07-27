@@ -1,0 +1,44 @@
+{
+  "info": {
+    "name": "My API Collection",
+    "description": "This collection contains requests for my project",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get All Users",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.example.com/users",
+          "protocol": "https",
+          "host": ["api", "example", "com"],
+          "path": ["users"]
+        }
+      }
+    },
+    {
+      "name": "Create User",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"John\",\n  \"email\": \"john@example.com\"\n}"
+        },
+        "url": {
+          "raw": "https://api.example.com/users",
+          "protocol": "https",
+          "host": ["api", "example", "com"],
+          "path": ["users"]
+        }
+      }
+    }
+  ]
+}
