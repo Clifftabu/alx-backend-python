@@ -33,7 +33,7 @@ def threaded_conversations(request):
 @login_required
 @cache_page(60)
 def unread_messages_view(request):
-    unread_msgs = Message.unread.unread.for_user(request.user)
+    unread_msgs = Message.unread.unread_for_user(request.user)
     return render(request, 'messages/unread.html', {'messages': unread_msgs})
 
 @login_required

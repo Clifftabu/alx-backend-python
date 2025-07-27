@@ -37,5 +37,5 @@ class MessageHistory(models.Model):
         return f'Edit History of Message {self.message.id}'
     
 class UnreadMessagesManager(models.Manager):
-    def for_user(self, user):
-        return self.filter(receiver=user, read=False).only('id', 'content', 'timestamp', 'sender') ,, this is my models.py, give me final files
+    def unread_for_user(self, user):
+        return self.filter(receiver=user, read=False).only('id', 'content', 'timestamp', 'sender')
